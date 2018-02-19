@@ -1,20 +1,23 @@
 'use strict'
 
-const path = require('path')
-const execSync = require('child_process').execSync
+const exec = require('child_process').exec
+
+const pExec = cmd => new Promise((resolve, reject) => {
+  exec(cmd, err => {
+    if (err) reject(err)
+    else resolve()
+  })
+})
 
 module.exports = async (url, file) => {
-  console.log('Prepare CEDICT Directory')
-  execSync(`mkdir -p ${path.dirname(file)}`)
-
   console.log('Downloading CEDICT Archive')
-  execSync(`curl -sL ${url} > ${file}.zip`)
+  await pExec(`curl -sL ${url} > ${file}.zip`)
 
   console.log('Unpacking CEDICT Archive')
-  execSync(`unzip -np ${file}.zip > ${file}`)
+  await pExec(`unzip -np ${file}.zip > ${file}`)
 
   console.log('Cleaning up')
-  execSync(`rm -rf ${file}.zip`)
+  await pExec(`rm -rf ${file}.zip`)
 
   return file
 }

@@ -81,6 +81,7 @@ mdbg.get('嗎')
 - [`pinyin-bot-core`](https://github.com/pepebecker/pinyin-bot-core)
 - [`pinyin-telegram`](https://github.com/pepebecker/pinyin-telegram)
 - [`pinyin-messenger`](https://github.com/pepebecker/pinyin-messenger)
+- [`pinyin-line`](https://github.com/pepebecker/pinyin-line)
 
 ## Contributing
 

@@ -33,7 +33,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "pinyin-utils": "^1.0.6"
+    "pinyin-utils": "^1.0.8"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
