@@ -3,59 +3,95 @@
 'use strict'
 
 const download = require('./download')
-const readline = require('readline')
+const pump = require('pump')
+const byline = require('byline')
 const path = require('path')
 const fs = require('fs')
+const PBF = require('pbf')
+const through = require('through2')
+const reduce = require('through2-reduce')
+const encoder = require('../data/mdbg.proto.js')
 
 const PATHS = {
   download: 'https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.zip',
   cedict: path.join(__dirname, '../data/cedict_ts.u8'),
-  json: path.join(__dirname, '../data/cedict.json')
+  dest: path.join(__dirname, '../data/cedict.bin')
 }
 
-const build = file => {
-  const data = {}
-  const rl = readline.createInterface({
-    input: fs.createReadStream(file)
-  })
-  rl.on('line', line => {
-    if (line == '' || /^#/.test(line)) {
-      return
-    }
+const parseLine = (line, _, done) => {
+  if (line == '' || /^#/.test(line)) {
+    return done()
+  }
+  line = line.toString('utf8')
 
-    const params = line.slice(0, -1).split('/')
-    const mandarin = params[0].slice(0, -1).substr(0, params[0].length - 2).split(' [')
-    const definitions = params.slice(1)
+  const params = line.slice(0, -1).split('/')
+  const mandarin = params[0].slice(0, -1).substr(0, params[0].length - 2).split(' [')
+  const translations = params.slice(1)
 
-    const characters = mandarin[0].split(' ')
-    const traditional = characters[0]
-    const simplified = characters[1]
-    const pinyin = mandarin[1].replace(/\u:/g, 'ü')
+  const characters = mandarin[0].split(' ')
+  const traditional = characters[0]
+  const simplified = characters[1]
+  const pinyin = mandarin[1].replace(/\u:/g, 'ü')
 
-    data[simplified] = data[simplified] || {}
-    data[simplified].d = data[simplified].d || {}
-    data[simplified].d[pinyin] = (data[simplified].d[pinyin] || []).concat(definitions)
-
-    if (simplified !== traditional) {
-      data[simplified].t = traditional
-      data[traditional] = {
-        d: data[simplified].d,
-        s: simplified
-      }
-    }
-  })
-  rl.on('close', () => {
-    fs.writeFile(path.join(__dirname, '../data/cedict.json'), JSON.stringify(data), err => {
-      if (err) {
-        console.error(err)
-        process.exit(1)
-      }
-      console.log('Successfully built cedict.json')
-      fs.unlink(PATHS.cedict, error => {
-        console.log('Successfully deleted cedict_ts.u8')
-      })
-    })
+  done(null, {
+    traditional,
+    simplified: simplified !== traditional ? traditional : null,
+    pinyin,
+    translations
   })
 }
 
-download(PATHS.download, PATHS.cedict).then(build)
+const reduceLines = (acc, line) => {
+  let entry = acc[line.traditional]
+  if (!acc[line.traditional]) {
+    entry = acc[line.traditional] = {
+      simplified: line.simplified,
+      definitions: []
+    }
+  }
+  entry.definitions.push({
+    pinyin: line.pinyin,
+    translations: line.translations
+  })
+  return acc
+}
+
+const encodeEntries = (entries, _, done) => {
+  const pbf = new PBF()
+  for (let traditional in entries) {
+    const entry = entries[traditional]
+    encoder.DictEntry.write(entry, pbf)
+  }
+  const buf = pbf.finish()
+  console.error('buf', buf.byteLength)
+  done(null, buf)
+}
+
+const build = file => new Promise((resolve, reject) => {
+  pump(
+    fs.createReadStream(file),
+    byline.createStream(),
+    through.obj(parseLine),
+    reduce.obj(reduceLines, Object.create(null)),
+    through.obj(encodeEntries),
+    fs.createWriteStream(PATHS.dest),
+    (err) => {
+      if (err) reject(err)
+      else resolve()
+    }
+  )
+})
+
+download(PATHS.download, PATHS.cedict)
+.then(build)
+.then(() => {
+  console.log('Successfully built cedict.bin')
+  fs.unlink(PATHS.cedict, error => {
+    // todo: handle error
+    console.log('Successfully deleted cedict_ts.u8')
+  })
+})
+.catch((err) => {
+  console.error(err)
+  process.exitCode = 1
+})
