@@ -83,22 +83,6 @@ const build = file => new Promise((resolve, reject) => {
   )
 })
 
-if (process.argv[2] === '-d') {
-  Promise.resolve(PATHS.cedict)
-    .then(build)
-    .then(() => {
-      console.log('Successfully built cedict.bin')
-      // fs.unlink(PATHS.cedict, error => {
-      //   // todo: handle error
-      //   console.log('Successfully deleted cedict_ts.u8')
-      // })
-    })
-    .catch((err) => {
-      console.error(err)
-      process.exitCode = 1
-    })
-}
-
 const prepare = () => {
   if (process.env.DOWNLOAD === 'true') {
     return download(PATHS.download, PATHS.cedict)
@@ -111,12 +95,18 @@ prepare()
 .then(build)
 .then(() => {
   console.log('Successfully built cedict.bin')
-  // fs.unlink(PATHS.cedict, error => {
-  //   // todo: handle error
-  //   console.log('Successfully deleted cedict_ts.u8')
-  // })
+  return new Promise((resolve, reject) => {
+    fs.unlink(PATHS.cedict, err => {
+      if (err) {
+        reject(err)
+        return
+      }
+      resolve('Successfully deleted cedict_ts.u8')
+    })
+  })
 })
-.catch((err) => {
+.then(console.log)
+.catch(err => {
   console.error(err)
   process.exitCode = 1
 })
