@@ -10,7 +10,6 @@ const decoder = require('./data/mdbg.proto.js')
 let data = fs.readFileSync(path.join(__dirname, 'data', 'cedict.bin'))
 const { entries } = decoder.Dict.read(new Pbf(data))
 data = null
-console.error(entries[0])
 
 const get = require('./lib/get')(entries)
 
