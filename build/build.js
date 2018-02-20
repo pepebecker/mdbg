@@ -45,6 +45,7 @@ const reduceLines = (acc, line) => {
   let entry = acc[line.traditional]
   if (!acc[line.traditional]) {
     entry = acc[line.traditional] = {
+      traditional: line.traditional,
       simplified: line.simplified,
       definitions: []
     }
@@ -57,14 +58,14 @@ const reduceLines = (acc, line) => {
 }
 
 const encodeEntries = (entries, _, done) => {
-  const pbf = new PBF()
+  const dict = {entries: []}
   for (let traditional in entries) {
-    const entry = entries[traditional]
-    encoder.DictEntry.write(entry, pbf)
+    dict.entries.push(entries[traditional])
   }
-  const buf = pbf.finish()
-  console.error('buf', buf.byteLength)
-  done(null, buf)
+  
+  const pbf = new PBF()
+  encoder.Dict.write(dict, pbf)
+  done(null, pbf.finish())
 }
 
 const build = file => new Promise((resolve, reject) => {
