@@ -1,18 +1,18 @@
 language: node_js
 node_js:
-  - "stable"
-  - "9"
-  - "8"
+- stable
+- '9'
+- '8'
 script:
-  - npm run build
-  - npm test
+- npm run build
+- npm test
 after_success:
-  - npm run coveralls
+- npm run coveralls
 deploy:
   provider: npm
   email: mail@pepebecker.com
   api_key:
-    secure: GHXiAFJO0b0Yd64hfb1sjZhnjv4O/vJRkQO8xood36+Jn5CqChjw7hbsGEksIby/JV2Dnop9H68O6KV2Ef4unv53XPVIQgUPixY32jKClpWPph4nBoYjOtmzdncp7LcUVY6lyrW0H2erCuayECHnE+S7WYr821uoB2FXJIwoH1G720TUztmqNXCS6tqeTmU8wWCLwAVYR9usYuJL0FzXZgHGw8QZmpFgY3x3bY52H/MgVi11RlZW9AKyViVj5vb2Tb5L+ylN/mSPHTBazoxDMDqtdf0lm/I8cfNv94vO+ME7/3qOo9PULlr3bRxLfV0B6xwKgfiieE+7hSfyCXfsU+nz/Ay2np0r4QKHl5Z5ZhSjZySoHu/0EH2b+IpC1PdMGvzivD3qdBliuiqAyUu8/xgxjRYnxv4qqTHjNX5Ci7zKR4CQ6HGYKzh/8FMOjur4XhtmjFqZFqeEaiq1MVmUzdjUbxp8lRgOGKVEuBo4EYdGErGDzAu7cimL3QNUhJnqXQQX+QRpqvrtcPXv014Gwz/wkHKh/Xgoze1eVvlLjXcouu2zCNRehRpIkq2FkJQUrnDgfE0O2ntUY2NNa4gELzL+FHM7WOfwId5AKN6YnWioG3KvYF47sruU/KeFfm5S7XFHPGSPpD/FYBayT2B3eIoI9P9+8NrLst/sIHHNxVc=
+    secure: fnnj7YdCYF7Ffe/FPcl7R5yD5ZeiTNBHJfJpM2pnjpGsNI4yo+5hraL1y12DfUDZH9WXviogpGQ3Ibvu210YWM8B+H0btgqr6U3ptv2ykNBhCIgAKO+qe+vtH14Pk9mTDPSsYsYmzHQpWVpwOXWgIznhkooFGl2ErKEqmDY5UyAvCp1t24dRLnCxVyLfrSnpwIoU1eiLQPF/aLOv3ZyP6AZoYnkcKSL3IRE5vwEOMqj7ItROkDo7nVl/j/TSkcTnUB54drjFqhcITv9eiz8GLh1u6qvcDBR+OwX69/xXDASCwS1flk3e/Su8bKQD644ZoHYT4mNNiD0/93wbiRxTqh3chr9Sjq4uRsHF6eGe+ot2a/1IoTKQGxby96l5JOcJA8eRQkTibiTyvecSpCpMNjE5yOQcG5CHNAXShc1vrmEFoXUpxUhG9UQMLoN2KNKgIdof2deI0ukUTuanVIP1bkae6XDzpzolGNIk4DURCKirpjFxXCsBbL2y+Osmh8+yzDALLDRl/cw6jeynHqI590OG85xp2dIEo8ZnQ7GZ8XUsWpTEmwyDSP47TWJjxUKgftlL2JBWQko8u51un9KgqL66RgGRFVz7tCdTRid3dMzDXzuweWdCYsLB8MB88jG4zfEwarFXhCwRAdWx7/DQTDo9C0dBKUn2pXASKIuMJVo=
   skip_cleanup: true
   on:
     branch: master
