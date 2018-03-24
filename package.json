@@ -20,7 +20,7 @@
   "main": "index.js",
   "files": [
     "data",
-    "cangjie.json"
+    "lib"
   ],
   "repository": {
     "type": "git",
