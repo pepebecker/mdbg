@@ -1,6 +1,6 @@
 {
   "name": "mdbg",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Node wrapper for the MDBG database",
   "keywords": [
     "cangjie",
