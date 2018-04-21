@@ -1,5 +1,7 @@
 # MDBG
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/pepebecker/mdbg.svg)](https://greenkeeper.io/)
+
 [![npm version](https://img.shields.io/npm/v/mdbg.svg)](https://www.npmjs.com/package/mdbg)
 [![Travis Build Status](https://travis-ci.org/pepebecker/mdbg.svg)](https://travis-ci.org/pepebecker/mdbg)
 [![Coverage Status](https://coveralls.io/repos/github/pepebecker/mdbg/badge.svg)](https://coveralls.io/github/pepebecker/mdbg)
