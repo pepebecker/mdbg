@@ -9,13 +9,12 @@ script:
 after_success:
 - npm run coveralls
 before_deploy:
-- ls -lh data/*.json
+- ls -lh data/cedict.json
 - npm version --no-git-tag-version --force $(npx semver -i minor $(npm info mdbg version))
 deploy:
   provider: npm
   email: mail@pepebecker.com
-  api_key:
-    secure: fnnj7YdCYF7Ffe/FPcl7R5yD5ZeiTNBHJfJpM2pnjpGsNI4yo+5hraL1y12DfUDZH9WXviogpGQ3Ibvu210YWM8B+H0btgqr6U3ptv2ykNBhCIgAKO+qe+vtH14Pk9mTDPSsYsYmzHQpWVpwOXWgIznhkooFGl2ErKEqmDY5UyAvCp1t24dRLnCxVyLfrSnpwIoU1eiLQPF/aLOv3ZyP6AZoYnkcKSL3IRE5vwEOMqj7ItROkDo7nVl/j/TSkcTnUB54drjFqhcITv9eiz8GLh1u6qvcDBR+OwX69/xXDASCwS1flk3e/Su8bKQD644ZoHYT4mNNiD0/93wbiRxTqh3chr9Sjq4uRsHF6eGe+ot2a/1IoTKQGxby96l5JOcJA8eRQkTibiTyvecSpCpMNjE5yOQcG5CHNAXShc1vrmEFoXUpxUhG9UQMLoN2KNKgIdof2deI0ukUTuanVIP1bkae6XDzpzolGNIk4DURCKirpjFxXCsBbL2y+Osmh8+yzDALLDRl/cw6jeynHqI590OG85xp2dIEo8ZnQ7GZ8XUsWpTEmwyDSP47TWJjxUKgftlL2JBWQko8u51un9KgqL66RgGRFVz7tCdTRid3dMzDXzuweWdCYsLB8MB88jG4zfEwarFXhCwRAdWx7/DQTDo9C0dBKUn2pXASKIuMJVo=
+  api_key: ${NPM_TOKEN}
   skip_cleanup: true
   on:
     branch: master

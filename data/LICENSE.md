@@ -1,1 +1,0 @@
-The data in here is **[CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/)-licensed**. It has been taken from [mdbg.net](https://www.mdbg.net/chinese/dictionary?page=cc-cedict).

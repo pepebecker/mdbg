@@ -23,43 +23,41 @@ mdbg.get('苹果')
 // {
 //   "traditional": "蘋果",
 //   "simplified": "苹果",
-//   "data": {
+//   "definitions": {
 //     "ping2 guo3": {
 //       "mandarin": "píng guó",
-//       "definitions": [
+//       "translations": [
 //         "apple"
 //       ],
 //       "classifiers": {
 //         "ge4": {
 //           "traditional": "個",
 //           "simplified": "个",
-//           "mandarin": "gè",
-//           "definition": "classifier for people or objects in general"
+//           "mandarin": "gè"
 //         },
 //         "ke1": {
 //           "traditional": "顆",
 //           "simplified": "颗",
-//           "mandarin": "kē",
-//           "definition": "classifier for small spheres, pearls, corn grains, teeth, hearts, satellites etc"
+//           "mandarin": "kē"
 //         }
 //       }
 //     }
 //   }
 // }
-mdbg.get('嗎')
+mdbg.get('吗')
 // {
 //   "traditional": "嗎",
 //   "simplified": "吗",
-//   "data": {
+//   "definitions": {
 //     "ma3": {
 //       "mandarin": "mǎ",
-//       "definitions": [
+//       "translations": [
 //         "see 嗎啡|吗啡, morphine"
 //       ]
 //     },
 //     "ma5": {
 //       "mandarin": "ma",
-//       "definitions": [
+//       "translations": [
 //         "(question particle for \"yes-no\" questions)"
 //       ]
 //     }
@@ -73,6 +71,7 @@ mdbg.get('嗎')
 - [`pinyin-split`](https://github.com/pepebecker/pinyin-split)
 - [`find-hanzi`](https://github.com/pepebecker/find-hanzi)
 - [`hsk-words`](https://github.com/pepebecker/hsk-words)
+- [`cedict`](https://github.com/pepebecker/cedict)
 - [`pinyin-or-hanzi`](https://github.com/pepebecker/pinyin-or-hanzi)
 - [`hanzi-to-pinyin`](https://github.com/pepebecker/hanzi-to-pinyin)
 - [`pinyin-convert`](https://github.com/pepebecker/pinyin-convert)
