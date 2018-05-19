@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message PinyinDefinition {
+  required string pinyin = 1;
+  repeated string translations = 2;
+}
+
+message DictEntry {
+  required string traditional = 1;
+  optional string simplified = 2;
+  repeated PinyinDefinition definitions = 3;
+}
