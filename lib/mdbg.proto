@@ -6,7 +6,11 @@ message PinyinDefinition {
 }
 
 message DictEntry {
-  required string traditional = 1;
-  optional string simplified = 2;
-  repeated PinyinDefinition definitions = 3;
+  required string traditional = 10;
+  optional string simplified = 11;
+  repeated PinyinDefinition definitions = 12;
+}
+
+message Dict {
+  repeated DictEntry entries = 20;
 }
