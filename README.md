@@ -81,6 +81,9 @@ mdbg.get('吗')
 - [`pinyin-telegram`](https://github.com/pepebecker/pinyin-telegram)
 - [`pinyin-messenger`](https://github.com/pepebecker/pinyin-messenger)
 - [`pinyin-line`](https://github.com/pepebecker/pinyin-line)
+- [`pinyin-chrome`](https://github.com/pepebecker/pinyin-chrome)
+- [`pinyin-cli`](https://github.com/pepebecker/pinyin-cli)
+- [`hanzi-cli`](https://github.com/pepebecker/hanzi-cli)
 
 ## Contributing
 
