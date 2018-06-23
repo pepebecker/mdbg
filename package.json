@@ -29,7 +29,7 @@
   "scripts": {
     "cover": "istanbul cover _mocha",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
-    "test": "mocha"
+    "test": "mocha --timeout 10000"
   },
   "dependencies": {
     "cedict": "^1.3.0",
