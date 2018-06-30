@@ -3,9 +3,6 @@ node_js:
 - stable
 - '9'
 - '8'
-script:
-- npm run build
-- npm test
 after_success:
 - npm run coveralls
 before_deploy:
