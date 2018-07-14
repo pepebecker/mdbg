@@ -3,10 +3,7 @@ node_js:
 - stable
 - '9'
 - '8'
-after_success:
-- npm run coveralls
 before_deploy:
-- ls -lh data/cedict.json
 - npm version --no-git-tag-version --force $(npx semver -i minor $(npm info mdbg version))
 deploy:
   provider: npm

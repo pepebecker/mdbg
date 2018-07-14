@@ -1,15 +1,18 @@
 {
   "name": "mdbg",
-  "version": "1.0.3",
+  "version": "1.4.0",
   "description": "Node wrapper for the MDBG database",
   "keywords": [
-    "cangjie",
-    "chinese",
-    "hanzi",
-    "mandarin",
     "mdbg",
+    "cedict",
+    "chinese",
+    "mandarin",
+    "hanzi",
     "pinyin",
-    "zhuyin"
+    "zhuyin",
+    "中文",
+    "拼音",
+    "汉字"
   ],
   "homepage": "https://github.com/pepebecker/mdbg#readme",
   "bugs": {
@@ -27,21 +30,18 @@
     "url": "https://github.com/pepebecker/mdbg.git"
   },
   "scripts": {
-    "cover": "istanbul cover _mocha",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "test": "mocha --timeout 20000"
   },
   "dependencies": {
-    "cedict": "^1.3.0",
-    "level-browserify": "^1.1.2",
+    "cedict": "^1.4.0",
+    "level": "^3.0.1",
     "node-fetch": "^2.1.2",
-    "pinyin-utils": "^1.0.8"
+    "pinyin-utils": "^1.0.8",
+    "sublevel": "^2.4.0",
+    "zhuyin": "^1.1.0"
   },
   "devDependencies": {
-    "coveralls": "^3.0.1",
-    "istanbul": "^0.4.5",
     "mocha": "^5.1.1",
-    "mocha-lcov-reporter": "^1.3.0",
     "should": "^13.2.1"
   }
 }

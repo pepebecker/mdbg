@@ -2,7 +2,6 @@
 
 [![npm version](https://img.shields.io/npm/v/mdbg.svg)](https://www.npmjs.com/package/mdbg)
 [![Travis Build Status](https://travis-ci.org/pepebecker/mdbg.svg)](https://travis-ci.org/pepebecker/mdbg)
-[![Coverage Status](https://coveralls.io/repos/github/pepebecker/mdbg/badge.svg)](https://coveralls.io/github/pepebecker/mdbg)
 [![Greenkeeper badge](https://badges.greenkeeper.io/pepebecker/mdbg.svg)](https://greenkeeper.io/)
 [![dependency status](https://img.shields.io/david/pepebecker/mdbg.svg)](https://david-dm.org/pepebecker/mdbg)
 [![dev dependency status](https://img.shields.io/david/dev/pepebecker/mdbg.svg)](https://david-dm.org/pepebecker/mdbg#info=devDependencies)
@@ -19,13 +18,16 @@ npm install pepebecker/mdbg
 
 ```js
 const mdbg = require('mdbg')
-mdbg.get('苹果')
+
+mdbg.get('苹果') // mdbg.getByHanzi('苹果')
+.then(console.log)
 // {
 //   "traditional": "蘋果",
 //   "simplified": "苹果",
 //   "definitions": {
-//     "ping2 guo3": {
-//       "mandarin": "píng guó",
+//     ping2 guo3": {
+//       "pinyin": "píng guǒ",
+//       "zhuyin": "ㄆㄧㄥˊㄍㄨㄛˇ",
 //       "translations": [
 //         "apple"
 //       ],
@@ -33,36 +35,81 @@ mdbg.get('苹果')
 //         "ge4": {
 //           "traditional": "個",
 //           "simplified": "个",
-//           "mandarin": "gè"
+//           "pinyin": "gè"
 //         },
 //         "ke1": {
 //           "traditional": "顆",
 //           "simplified": "颗",
-//           "mandarin": "kē"
+//           "pinyin": "kē"
 //         }
 //       }
 //     }
 //   }
 // }
-mdbg.get('吗')
+
+mdbg.get('吗') // mdbg.getByHanzi('吗')
+.then(console.log)
 // {
 //   "traditional": "嗎",
 //   "simplified": "吗",
 //   "definitions": {
 //     "ma3": {
-//       "mandarin": "mǎ",
+//       "pinyin": "mǎ",
+//       "zhuyin": "ㄇㄚˇ",
 //       "translations": [
 //         "see 嗎啡|吗啡, morphine"
 //       ]
 //     },
 //     "ma5": {
-//       "mandarin": "ma",
+//       "pinyin": "ma",
+//       "zhuyin": "ㄇㄚ˙",
 //       "translations": [
 //         "(question particle for \"yes-no\" questions)"
 //       ]
 //     }
 //   }
 // }
+
+mdbg.get('wo3') // mdbg.getByPinyin('wo3')
+.then(console.log)
+// [
+//   {
+//     "traditional": "我",
+//     "simplified": "我",
+//     "definitions": {
+//       "wo3": {
+//         "pinyin": "wǒ",
+//         "zhuyin": "ㄨㄛˇ",
+//         "translations": [
+//           "I",
+//           "me",
+//           "my"
+//         ]
+//       }
+//     }
+//   },
+//   {
+//     "traditional": "婐",
+//     "simplified": "婐",
+//     "definitions": {
+//       "wo3": {
+//         "pinyin": "wǒ",
+//         "zhuyin": "ㄨㄛˇ",
+//         "translations": [
+//           "maid"
+//         ]
+//       }
+//     }
+//   }
+// ]
+
+mdbg.getListByPinyin('shui3')
+.then(console.log)
+// [
+//   "水",
+//   "氵",
+//   "氺"
+// ]
 ```
 
 ## Related
