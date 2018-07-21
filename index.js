@@ -10,7 +10,9 @@ let state = {
   db: null,
   hanziDB: null,
   pinyinDB: null,
-  pinyins: {}
+  pinyins: {},
+  initializing: false,
+  afterInitialized: []
 }
 
 const loadData = url => {
@@ -82,10 +84,12 @@ const importData = data => {
   })
 }
 
-const init = (dbName, url) => new Promise((resolve, reject) => {
-  level(dbName, { valueEncoding: 'json' }, (err, db) => {
+const init = (dbName = 'cedict_db', url) => new Promise((resolve, reject) => {
+  state.initializing = true
+  level(state.dbName || dbName, { valueEncoding: 'json' }, (err, db) => {
     if (err) return reject(err)
 
+    state.dbName = dbName
     state.db = db
     state.hanziDB = sublevel(db, 'hanzi')
     state.pinyinDB = sublevel(db, 'pinyin')
@@ -100,32 +104,36 @@ const init = (dbName, url) => new Promise((resolve, reject) => {
         return reject(err)
       }
 
-      if (available) resolve()
+      if (available) {
+        resolve()
+        state.initializing = false
+        for (const callback of state.afterInitialized) {
+          callback()
+        }
+        state.afterInitialized = []
+      }
       else reject()
     })
   })
 })
 
-const createGetter = (getter, ...dbs) => {
-  if (state.db) {
-    return getter(...dbs.map(db => state[db]))
-  } else {
-    return query => init('cedict_db').then(() => {
-      return getter(...dbs.map(db => state[db]))(query)
-    })
+const createGet = async (getter, query) => {
+  if (state[getter.name]) return state[getter.name](query)
+  else {
+    if (!state.hanziDB || !state.pinyinDB) {
+      if (state.initializing) {
+        await new Promise((resolve, reject) => state.afterInitialized.push(resolve))
+      } else await init()
+    }
+    state[getter.name] = getter(state.hanziDB, state.pinyinDB)
+    return state[getter.name](query)
   }
 }
 
 module.exports = {
   init,
-  get: createGetter(get, 'hanziDB', 'pinyinDB'),
-  getByHanzi: createGetter(get.byHanzi, 'hanziDB'),
-  getByPinyin: createGetter(get.byPinyin, 'hanziDB', 'pinyinDB'),
-  getListByPinyin: createGetter(get.listByPinyin, 'pinyinDB')
+  get: query => createGet(get, query),
+  getByHanzi: query => createGet(get.byHanzi, query),
+  getByPinyin: query => createGet(get.byPinyin, query),
+  getListByPinyin: query => createGet(get.listByPinyin, query)
 }
-
-module.exports.getListByPinyin('shui3')
-.then(data => {
-  console.log(JSON.stringify(data, null, '  '))
-})
-.catch(console.error)
