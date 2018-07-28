@@ -28,13 +28,16 @@ const loadData = url => {
 const saveEntry = (db, entry) => new Promise((resolve, reject) => {
   const data = {
     traditional: entry.traditional,
-    definitions: [].concat(entry.definitions)
+    definitions: [].concat(entry.definitions.map(def => {
+      def.pinyin = def.pinyin.toLowerCase()
+      return def
+    }))
   }
 
   if (entry.simplified) data.simplified = entry.simplified
 
   for (const def of data.definitions) {
-    const key = def.pinyin.toLowerCase()
+    const key = def.pinyin
     state.pinyins[key] = state.pinyins[key] || []
     if (!state.pinyins[key].includes(data.traditional)) {
       state.pinyins[key] = state.pinyins[key].concat(data.traditional)
@@ -135,5 +138,13 @@ module.exports = {
   get: query => createGet(get, query),
   getByHanzi: query => createGet(get.byHanzi, query),
   getByPinyin: query => createGet(get.byPinyin, query),
-  getListByPinyin: query => createGet(get.listByPinyin, query)
+  getByZhuyin: query => createGet(get.byZhuyin, query),
+  getIndexByPinyin: query => createGet(get.indexByPinyin, query),
+  getIndexByZhuyin: query => createGet(get.indexByZhuyin, query)
 }
+
+module.exports.getIndexByZhuyin('ㄍㄨㄛˇ')
+.then(data => {
+  console.log(JSON.stringify(data, null, '  '))
+})
+.catch(console.error)

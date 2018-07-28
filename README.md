@@ -103,19 +103,39 @@ mdbg.get('wo3') // mdbg.getByPinyin('wo3')
 //   }
 // ]
 
-mdbg.getListByPinyin('shui3')
-.then(console.log)
+mdbg.get('ㄒㄧˇㄏㄨㄢ˙') // mdbg.getByZhuyin('ㄒㄧˇㄏㄨㄢ˙')
+// .then(console.log)
 // [
-//   "水",
-//   "氵",
-//   "氺"
+//   {
+//     "traditional": "喜歡",
+//     "simplified": "喜欢",
+//     "definitions": {
+//       "xi3 huan5": {
+//         "pinyin": "xǐ huan",
+//         "zhuyin": "ㄒㄧˇㄏㄨㄢ˙",
+//         "translations": [
+//           "to like",
+//           "to be fond of"
+//         ]
+//       }
+//     }
+//   }
 // ]
+
+mdbg.getIndexByPinyin('shui3')
+.then(console.log)
+// [ "水", "氵", "氺" ]
+
+mdbg.getIndexByZhuyin('ㄍㄨㄛˇ')
+.then(console.log)
+// [ "惈", "槨", "猓", "粿", "菓", "蜾", "裹", "輠", "餜" ]
 ```
 
 ## Related
 
 - [`pinyin-utils`](https://github.com/pepebecker/pinyin-utils)
 - [`pinyin-split`](https://github.com/pepebecker/pinyin-split)
+- [`zhuyin`](https://github.com/pepebecker/zhuyin)
 - [`find-hanzi`](https://github.com/pepebecker/find-hanzi)
 - [`hsk-words`](https://github.com/pepebecker/hsk-words)
 - [`cedict`](https://github.com/pepebecker/cedict)
