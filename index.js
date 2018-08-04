@@ -142,9 +142,3 @@ module.exports = {
   getIndexByPinyin: query => createGet(get.indexByPinyin, query),
   getIndexByZhuyin: query => createGet(get.indexByZhuyin, query)
 }
-
-module.exports.getIndexByZhuyin('ㄍㄨㄛˇ')
-.then(data => {
-  console.log(JSON.stringify(data, null, '  '))
-})
-.catch(console.error)
