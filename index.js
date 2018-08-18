@@ -35,17 +35,11 @@ const saveEntry = (db, entry) => new Promise((resolve, reject) => {
   }
 
   if (entry.simplified) data.simplified = entry.simplified
+  if (entry.hsk > 0) data.hsk = entry.hsk
 
   for (const def of data.definitions) {
-    const key = def.pinyin
-    state.pinyins[key] = state.pinyins[key] || []
-    if (!state.pinyins[key].includes(data.traditional)) {
-      state.pinyins[key] = state.pinyins[key].concat(data.traditional)
-    }
-    if (data.traditional !== data.simplified && state.pinyins[key].includes(data.simplified)) {
-      const index = state.pinyins[key].indexOf(data.simplified)
-      state.pinyins[key].splice(index, 1)
-    }
+    state.pinyins[def.pinyin] = state.pinyins[def.pinyin] || {}
+    state.pinyins[def.pinyin][data.simplified || data.traditional] = data.hsk
   }
 
   db.put(data.traditional, data, err => {
@@ -63,7 +57,13 @@ const saveEntry = (db, entry) => new Promise((resolve, reject) => {
   })
 })
 
-const savePinyinEntry = (db, pinyin, list) => new Promise((resolve, reject) => {
+const savePinyinEntry = (db, pinyin, data) => new Promise((resolve, reject) => {
+  const list = Object.keys(data).sort((a, b) => {
+    if (data[a]) {
+      if (data[b]) return data[a] - data[b]
+      return -1
+    } else return 1
+  })
   db.put(pinyin, list, err => {
     if (err) reject(err)
     else resolve()
