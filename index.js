@@ -101,14 +101,14 @@ const init = (dbName = 'cedict_db', url) => new Promise((resolve, reject) => {
       if (err && err.type === 'NotFoundError') {
         return loadData(url)
         .then(data => importData(data))
-        .then(resolve)
+        .then(() => resolve(db))
         .catch(reject)
       } else if (err) {
         return reject(err)
       }
 
       if (available) {
-        resolve()
+        resolve(db)
         state.initializing = false
         for (const callback of state.afterInitialized) {
           callback()
