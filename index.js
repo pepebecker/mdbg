@@ -2,8 +2,9 @@
 
 const decode = require('cedict/decode')
 const fetch = require('node-fetch')
-const level = require('level')
 const sublevel = require('sublevel')
+const { promisify } = require('util')
+const level = promisify(require('level'))
 const get = require('./lib/get')
 
 let state = {
@@ -87,38 +88,37 @@ const importData = data => {
   })
 }
 
-const init = (dbName = 'cedict_db', url) => new Promise((resolve, reject) => {
-  state.initializing = true
-  level(state.dbName || dbName, { valueEncoding: 'json' }, (err, db) => {
-    if (err) return reject(err)
-
-    state.dbName = dbName
-    state.db = db
-    state.hanziDB = sublevel(db, 'hanzi')
-    state.pinyinDB = sublevel(db, 'pinyin')
-
-    db.get('cedict_available', (err, available) => {
-      if (err && err.type === 'NotFoundError') {
-        return loadData(url)
-        .then(data => importData(data))
-        .then(() => resolve(db))
-        .catch(reject)
-      } else if (err) {
-        return reject(err)
-      }
-
-      if (available) {
-        resolve(db)
-        state.initializing = false
-        for (const callback of state.afterInitialized) {
-          callback()
-        }
-        state.afterInitialized = []
-      }
-      else reject()
-    })
+const checkCedictAvailable = db => new Promise((resolve, reject) => {
+  db.get('cedict_available', (err, value) => {
+    if (err) {
+      if (err.type === 'NotFoundError') resolve(false)
+      else reject(err)
+    }
+    else resolve(value)
   })
 })
+
+const init = async (db = 'cedict_db', url) => {
+  state.initializing = true
+  if (state.db) {
+    if (!state.hanziDB) state.hanziDB = sublevel(state.db, 'hanzi')
+    if (!state.pinyinDB) state.pinyinDB = sublevel(state.db, 'pinyin')
+    if (await checkCedictAvailable(state.db)) return state.db
+  } else {
+    if (typeof db === 'string') state.db = await level(db, { valueEncoding: 'json' })
+    else state.db = db
+    if (!state.hanziDB) state.hanziDB = sublevel(state.db, 'hanzi')
+    if (!state.pinyinDB) state.pinyinDB = sublevel(state.db, 'pinyin')
+    if (await checkCedictAvailable(state.db)) return state.db
+  }
+
+  const data = await loadData(url)
+  await importData(data)
+  state.initializing = false
+  state.afterInitialized.forEach(cb => cb())
+  state.afterInitialized = []
+  return state.db
+}
 
 const createGet = async (getter, query) => {
   if (state[getter.name]) return state[getter.name](query)
