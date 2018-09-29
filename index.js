@@ -1,6 +1,7 @@
 'use strict'
 
 const decode = require('cedict/decode')
+const hsk = require('cedict/hsk')
 const fetch = require('node-fetch')
 const sublevel = require('sublevel')
 const { promisify } = require('util')
@@ -11,6 +12,7 @@ let state = {
   db: null,
   hanziDB: null,
   pinyinDB: null,
+  hskDB: null,
   pinyins: {},
   initializing: false,
   afterInitialized: []
@@ -71,13 +73,21 @@ const savePinyinEntry = (db, pinyin, data) => new Promise((resolve, reject) => {
   })
 })
 
+const saveHSKEntry = (db, lvl, list) => new Promise((resolve, reject) => {
+  db.put(lvl, list, err => {
+    if (err) reject(err)
+    else resolve()
+  })
+})
+
 const importData = data => {
   return Promise.all(data.map(e => saveEntry(state.hanziDB, e)))
   .then(() => {
-    Promise.all(Object.keys(state.pinyins).map(pinyin => {
+    return Promise.all(Object.keys(state.pinyins).map(pinyin => {
       return savePinyinEntry(state.pinyinDB, pinyin, state.pinyins[pinyin])
     }))
   })
+  .then(() => Promise.all(hsk.map((list, i) => saveHSKEntry(state.hskDB, i + 1, list))))
   .then(() => {
     return new Promise((resolve, reject) => {
       state.db.put('cedict_available', true, err => {
@@ -103,12 +113,14 @@ const init = async (db = 'cedict_db', url) => {
   if (state.db) {
     if (!state.hanziDB) state.hanziDB = sublevel(state.db, 'hanzi')
     if (!state.pinyinDB) state.pinyinDB = sublevel(state.db, 'pinyin')
+    if (!state.hskDB) state.hskDB = sublevel(state.db, 'hsk')
     if (await checkCedictAvailable(state.db)) return state.db
   } else {
     if (typeof db === 'string') state.db = await level(db, { valueEncoding: 'json' })
     else state.db = db
     if (!state.hanziDB) state.hanziDB = sublevel(state.db, 'hanzi')
     if (!state.pinyinDB) state.pinyinDB = sublevel(state.db, 'pinyin')
+    if (!state.hskDB) state.hskDB = sublevel(state.db, 'hsk')
     if (await checkCedictAvailable(state.db)) return state.db
   }
 
@@ -123,12 +135,12 @@ const init = async (db = 'cedict_db', url) => {
 const createGet = async (getter, query) => {
   if (state[getter.name]) return state[getter.name](query)
   else {
-    if (!state.hanziDB || !state.pinyinDB) {
+    if (!state.hanziDB || !state.pinyinDB || !state.hskDB) {
       if (state.initializing) {
         await new Promise((resolve, reject) => state.afterInitialized.push(resolve))
       } else await init()
     }
-    state[getter.name] = getter(state.hanziDB, state.pinyinDB)
+    state[getter.name] = getter(state.hanziDB, state.pinyinDB, state.hskDB)
     return state[getter.name](query)
   }
 }
@@ -139,6 +151,8 @@ module.exports = {
   getByHanzi: query => createGet(get.byHanzi, query),
   getByPinyin: query => createGet(get.byPinyin, query),
   getByZhuyin: query => createGet(get.byZhuyin, query),
+  getByHSK: query => createGet(get.byHSK, query),
   getIndexByPinyin: query => createGet(get.indexByPinyin, query),
-  getIndexByZhuyin: query => createGet(get.indexByZhuyin, query)
+  getIndexByZhuyin: query => createGet(get.indexByZhuyin, query),
+  getIndexByHSK: query => createGet(get.indexByHSK, query)
 }
