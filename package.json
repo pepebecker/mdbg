@@ -35,11 +35,11 @@
   "dependencies": {
     "cedict": "^1.10.0",
     "level": "^4.0.0",
-    "node-fetch": "^2.2.0",
-    "pinyin-split": "^1.13.0",
-    "pinyin-utils": "^1.6.0",
+    "node-fetch": "^2.2.1",
+    "pinyin-split": "^1.25.0",
+    "pinyin-utils": "^1.13.0",
     "sublevel": "^2.4.0",
-    "zhuyin": "^1.7.0"
+    "zhuyin": "^1.9.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
