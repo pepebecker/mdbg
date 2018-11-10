@@ -33,7 +33,7 @@
     "test": "mocha --timeout 20000"
   },
   "dependencies": {
-    "cedict": "^1.10.0",
+    "cedict": "^1.11.0",
     "level": "^4.0.0",
     "node-fetch": "^2.2.1",
     "pinyin-split": "^1.25.0",
