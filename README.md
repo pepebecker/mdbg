@@ -5,7 +5,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/pepebecker/mdbg.svg)](https://greenkeeper.io/)
 [![dependency status](https://img.shields.io/david/pepebecker/mdbg.svg)](https://david-dm.org/pepebecker/mdbg)
 [![dev dependency status](https://img.shields.io/david/dev/pepebecker/mdbg.svg)](https://david-dm.org/pepebecker/mdbg#info=devDependencies)
-[![MIT-licensed](https://img.shields.io/github/license/pepebecker/mdbg.svg)](https://opensource.org/licenses/MIT)
+[![ISC-licensed](https://img.shields.io/github/license/pepebecker/mdbg.svg)](https://choosealicense.com/licenses/isc/)
 [![chat on gitter](https://badges.gitter.im/pepebecker.svg)](https://gitter.im/pepebecker)
 
 ## Install
