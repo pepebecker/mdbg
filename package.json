@@ -35,6 +35,7 @@
   "dependencies": {
     "cedict": "^1.12.0",
     "level": "^4.0.0",
+    "level-party": "^4.0.0",
     "node-fetch": "^2.3.0",
     "pinyin-split": "^1.27.0",
     "pinyin-utils": "^1.14.0",

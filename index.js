@@ -4,8 +4,7 @@ const decode = require('cedict/decode')
 const hsk = require('cedict/hsk')
 const fetch = require('node-fetch')
 const sublevel = require('sublevel')
-const { promisify } = require('util')
-const level = promisify(require('level'))
+const level = require('level-party')
 const get = require('./lib/get')
 
 let state = {
