@@ -23,7 +23,7 @@
     "url": "https://github.com/pepebecker/mdbg.git"
   },
   "license": "MIT",
-  "author": "Pepe Becker <mail@pepebecker.com> (http://pepebecker.com)",
+  "author": "Pepe Becker <mail@pepebecker.com> (https://pepe.asia)",
   "files": [
     "index.js",
     "lib"
