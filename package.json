@@ -1,6 +1,6 @@
 {
   "name": "mdbg",
-  "version": "1.0.0",
+  "version": "1.73.0",
   "description": "Node wrapper for the MDBG database",
   "keywords": [
     "cedict",
