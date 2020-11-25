@@ -2,7 +2,6 @@
 
 [![npm version](https://img.shields.io/npm/v/mdbg.svg)](https://www.npmjs.com/package/mdbg)
 [![Travis Build Status](https://travis-ci.org/pepebecker/mdbg.svg)](https://travis-ci.org/pepebecker/mdbg)
-[![Greenkeeper badge](https://badges.greenkeeper.io/pepebecker/mdbg.svg)](https://greenkeeper.io/)
 [![dependency status](https://img.shields.io/david/pepebecker/mdbg.svg)](https://david-dm.org/pepebecker/mdbg)
 [![dev dependency status](https://img.shields.io/david/dev/pepebecker/mdbg.svg)](https://david-dm.org/pepebecker/mdbg#info=devDependencies)
 [![ISC-licensed](https://img.shields.io/github/license/pepebecker/mdbg.svg)](https://choosealicense.com/licenses/isc/)
