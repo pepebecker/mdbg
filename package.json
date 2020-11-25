@@ -30,7 +30,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 20000"
+    "test": "mocha tests/**/*.spec.js"
   },
   "dependencies": {
     "cedict": "^1.36.0",
@@ -42,8 +42,8 @@
     "zhuyin": "^1.13.0"
   },
   "devDependencies": {
-    "mocha": "^5.2.0",
-    "should": "^13.2.3"
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1"
   },
   "engines": {
     "node": ">=8.0"
