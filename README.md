@@ -9,7 +9,7 @@
 ## Install
 
 ```shell
-npm install pepebecker/mdbg
+npm install mdbg
 ```
 
 ## Usage
