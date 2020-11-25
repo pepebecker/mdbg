@@ -33,13 +33,13 @@
     "test": "mocha --timeout 20000"
   },
   "dependencies": {
-    "cedict": "^1.30.0",
+    "cedict": "^1.36.0",
     "level-party": "^4.0.0",
-    "node-fetch": "^2.6.0",
-    "pinyin-split": "^1.112.0",
-    "pinyin-utils": "^1.61.0",
+    "node-fetch": "^2.6.1",
+    "pinyin-split": "^1.140.0",
+    "pinyin-utils": "^2.3.0",
     "sublevel": "^2.4.0",
-    "zhuyin": "^1.11.0"
+    "zhuyin": "^1.13.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
